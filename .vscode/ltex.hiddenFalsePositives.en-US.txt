@@ -1,0 +1,6 @@
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMode 2 (CPOL=1, CPHA=0): Idle clock is high, data sampled on falling edge.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMode 3 (CPOL=1, CPHA=1): Idle clock is high, data sampled on rising edge.\\E$"}
+{"rule":"TO_TOO","sentence":"^\\QThe SCLK line returns to low (logical \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q), completing the transaction.\\E$"}
+{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qspibus timing\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_RULE","sentence":"^\\QPin 19 (GPIO 10) MOSI MOSI\nPin 21 (GPIO 9) MISO MISO\nPin 23 (GPIO 11) SCLK SCLK\nPin 24 (GPIO 8) CS0 (CS) CS\nPin 25 (GND) Ground (GND) GND\\E$"}
+{"rule":"A_BIT","sentence":"^\\QThe SPI protocol allows flexibility in clock polarity and phase (CPOL/CPHA), as well as bit order (MSB-first or LSB-first).\\E$"}
