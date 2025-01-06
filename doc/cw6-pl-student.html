@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Piotr Zawadzki" />
-  <meta name="dcterms.date" content="2025-01-05" />
+  <meta name="dcterms.date" content="2025-01-06" />
   <title>Linux w Systemach Wbudowanych</title>
   <style>
 html {
@@ -236,7 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <header id="title-block-header">
 <h1 class="title">Linux w Systemach Wbudowanych</h1>
 <p class="author">Piotr Zawadzki</p>
-<p class="date">2025-01-05</p>
+<p class="date">2025-01-06</p>
 </header>
 <nav id="TOC" role="doc-toc">
 
@@ -268,7 +268,7 @@ zmiany - za pomocą magistrali I2C podłączono</p>
 <h3 id="zawartość-wyświetlacza">Zawartość wyświetlacza</h3>
 <ul>
 <li>lewy górny róg: bieżąca temperatura,</li>
-<li>prawy górny róg: wartość nastawy w zakresu 0-59 ustawiana enkoderem
+<li>prawy górny róg: wartość nastawy w zakresu 0-60 ustawiana enkoderem
 obrotowym,</li>
 <li>pierwsza linia po lewej: bieżący czas ustawiony w RTC,</li>
 <li>pierwsza linia po prawej: bieżąca data ustawiona w RTC,</li>
@@ -284,6 +284,8 @@ obrotowym,</li>
 RTC,</li>
 <li>enkoder obrotowy - zmiana nastawy,</li>
 <li>nastawa poniżej temperatury wywołuje alarm,</li>
+<li>nastawa 60 zatrzymuje RTC,</li>
+<li>nastawa 59 uruchamia RTC,</li>
 <li>krótkie naciśnięcie przycisku enkodera - skopiowanie nastawy do pola
 sekund RTC,</li>
 <li>długie naciśnięcie przycisku enkodera - ustawienie czasu i daty
@@ -729,7 +731,7 @@ z/do urządzeń podłączonych do magistrali I2C.</p>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <h3 id="mcp9808"><code>MCP9808</code></h3>
 <p>Klasa <code>MCP9808</code> wykorzystuje <code>I2CBus</code> do
-transmisji. Metody zawarte w klasie zajmują się jedynie interpretacja i
+transmisji. Metody zawarte w klasie zajmują się jedynie interpretacją i
 formatowaniem danych.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MCP9808 <span class="op">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
@@ -765,7 +767,7 @@ formatowaniem danych.</p>
 <span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="op">};</span></span></code></pre></div>
 <h3 id="pcf8563"><code>PCF8563</code></h3>
 <p>Klasa <code>PCF8563</code> wykorzystuje <code>I2CBus</code> do
-transmisji. Metody zawarte w klasie zajmują się jedynie interpretacja i
+transmisji. Metody zawarte w klasie zajmują się jedynie interpretacją i
 formatowaniem danych.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PCF8563 <span class="op">{</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span><span class="op">:</span></span>
@@ -805,7 +807,7 @@ związanych z kontrolą szyn I2C</strong></li>
 </ol>
 <ul>
 <li><p>Przy użyciu komendy <code>ls</code> sprawdź dostępność nakładek
-DT obsługujących szyny SPI. Nakładki znajdują się w katalogu
+DT obsługujących szyny I2C. Nakładki znajdują się w katalogu
 <code>/boot/firmware/overlays</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>i2c<span class="pp">*</span></span></code></pre></div></li>
 </ul>
@@ -819,10 +821,10 @@ sufiksem <code>*-pi5</code> w nazwie.</p></li>
 nakładka/nakładki dotyczące I2C są załadowane.</p></li>
 <li><p><strong>Sprawdzenie konfiguracji miksera pinów</strong>.
 Korzystając z <code>pinctrl</code> znajdź piny na których można
-aktywować SPI.</p>
+aktywować I2C.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> funcs 1-27 <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&quot;SCL|SDA&quot;</span></span></code></pre></div></li>
 <li><p><strong>Sprawdzenie funkcji pinów wykorzystywanej magistrali
-SPI</strong>. Zastosowana w ćwiczeniu konfiguracja wykorzystuje
+I2C</strong>. Zastosowana w ćwiczeniu konfiguracja wykorzystuje
 magistralę I2C1. Sprawdź konfigurację przypisanych do niej pinów SDL i
 SDA.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> get 2,3</span></code></pre></div></li>
@@ -833,39 +835,29 @@ wynik działania odpowiednich komend. Zrzut zamieść w sprawozdaniu.</p>
 </div>
 <h3 id="interfejs-linii-komend">2. Interfejs linii komend</h3>
 <ol type="1">
-<li>Przenieś czas z systemu lokalnego na system <code>target</code>. W
-lokalnym systemie wydaj komendę</li>
-</ol>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> target <span class="st">&quot;sudo date -s </span><span class="dt">\&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> <span class="st">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="va">)</span><span class="dt">\&quot;</span><span class="st">&quot;</span></span></code></pre></div>
-<ol start="2" type="1">
-<li>Sprawdź magistrale dostępne w systemie</li>
-</ol>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-l</span></span></code></pre></div>
-<ol start="2" type="1">
-<li>Sprawdź urządzenia podpięte do magistrali <code>i2c-1</code>
-(<code>/dev/i2c-1</code>)</li>
-</ol>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-y</span> <span class="at">-r</span> 1</span></code></pre></div>
-<ol start="3" type="1">
-<li>Pobierz ID wytwórcy i sensora dla MCP9808</li>
-</ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x07 w</span></code></pre></div>
-<ol start="4" type="1">
-<li>Pobierz bieżący czas ustawiony w sensorze PCF8563 (zauważ użycie
-odpowiednich masek eliminujących nieużywane bity)</li>
-</ol>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">secreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x02 b<span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="va">minreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x03 b<span class="va">)</span> <span class="kw">&amp;&amp;</span>  <span class="va">hrsreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x04 b<span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="bu">printf</span> <span class="st">&quot;%02x:%02x:%02x\n&quot;</span> <span class="va">$((</span> <span class="va">hrsreg</span> <span class="op">&amp;</span> <span class="bn">0x3f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">minreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">secreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span><span class="va">))</span></span></code></pre></div>
-<ol start="5" type="1">
-<li>Ustaw czas <code>17:16</code></li>
-</ol>
+<li><p>Przenieś czas z systemu <code>host</code> (VM) na system
+<code>target</code> (Pi5). W systemie <code>host</code> wydaj
+komendę</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> target <span class="st">&quot;sudo date -s </span><span class="dt">\&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> <span class="st">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="va">)</span><span class="dt">\&quot;</span><span class="st">&quot;</span></span></code></pre></div></li>
+<li><p>Sprawdź magistrale dostępne w systemie</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-l</span></span></code></pre></div></li>
+<li><p>Sprawdź urządzenia podpięte do magistrali <code>i2c-1</code>
+(<code>/dev/i2c-1</code>)</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-y</span> <span class="at">-r</span> 1</span></code></pre></div></li>
+<li><p>Pobierz ID wytwórcy oraz ID urządzenia z rejestrów MCP9808</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x07 w</span></code></pre></div></li>
+<li><p>Pobierz bieżący czas ustawiony w sensorze PCF8563 (zauważ użycie
+odpowiednich masek eliminujących nieużywane bity)</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">secreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x02 b<span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="va">minreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x03 b<span class="va">)</span> <span class="kw">&amp;&amp;</span>  <span class="va">hrsreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x04 b<span class="va">)</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;%02x:%02x:%02x\n&quot;</span> <span class="va">$((</span> <span class="va">hrsreg</span> <span class="op">&amp;</span> <span class="bn">0x3f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">minreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">secreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span><span class="va">))</span></span></code></pre></div></li>
+<li><p>Ustaw czas <code>17:16</code></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x04 0x17 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x03 0x16 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x02 0x00 b</span></code></pre></div>
-<p>Pobierz ponownie czas zapisany w rejestrach zegara.</p>
-<ol start="6" type="1">
-<li>Uruchom poniższy one-liner pobierający N razy ID sensora MCP9808 co
-sekundę. Na oscyloskopie uzyskaj przebieg zapytania i odpowiedzi (2
-osobne przebiegi)</li>
+<p>Pobierz ponownie czas zapisany w rejestrach zegara.</p></li>
+<li><p>Uruchom poniższy one-liner pobierający 20 razy ID sensora
+MCP9808. Na oscyloskopie uzyskaj przebieg zapytania i odpowiedzi (2
+osobne przebiegi)</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="kw">`</span><span class="fu">seq</span> 1 20<span class="kw">`</span> <span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$k</span><span class="st">: &quot;</span> <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="fu">sleep</span> 1 <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div></li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="kw">`</span><span class="fu">seq</span> 1 20<span class="kw">`</span> <span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$k</span><span class="st">: &quot;</span> <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="fu">sleep</span> 1 <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
 <div style="background-color: yellow; color:red; padding: 2px;">
 <p>Wykonaj zrzuty ekranu w punkcie 5 (6.2.1) zawierające wynik działania
 odpowiednich komend. Zrzut zamieść w sprawozdaniu. Wykonaj zdjęcia
