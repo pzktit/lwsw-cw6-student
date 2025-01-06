@@ -83,17 +83,19 @@ uint8_t PCF8563::fromBCD(uint8_t value) {
 
 bool PCF8563::Start() {
     //TODO: Implement this function
+    // Set the start bit in the control register
+    // Please study the datasheet and implement this feature
     std::cout << "PCF8563::Start() not implemented" << std::endl;
-    std::cout << "Please study the datasheet and implement this feature in " << __func__  << std::endl;
-    uint8_t control1 = i2cBus_.read8(0x00);
-    i2cBus_.write8(0x00, control1 & ~0b00100000);
+    std::cout << "Please study the datasheet and implement this feature in " << __func__  << "from " << __FILE__ << std::endl;
     return true;
 }
 
 bool PCF8563::Stop() {
     //TODO: Implement this function
+    // Set the start bit in the control register
+    // Please study the datasheet and implement this feature
     std::cout << "PCF8563::Stop() not implemented" << std::endl;
-    std::cout << "Please study the datasheet and implement this feature in " << __func__  << std::endl;
+    std::cout << "Please study the datasheet and implement this feature in " << __func__ << "from " << __FILE__ << std::endl;
     return true;
 }
 
