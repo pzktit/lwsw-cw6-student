@@ -189,13 +189,18 @@ int main() {
 
         unsigned int counter = 0;
         bool rtc_is_running = true;
+        int mcpTemperatureMessage=-1 ;
         while (appState.keepRunning.load()) {
             counter = (counter + 1) % 10 ; 
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            if (appState.mcpTemperature.load() > appState.tempThreshold.load()) { // Alarm condition
+            if (appState.mcpTemperature.load() > appState.tempThreshold.load() && mcpTemperatureMessage != 1) { // Alarm condition
                 std::cout << "ALARM! Temperature " << appState.mcpTemperature.load() << "C above threshold" << std::endl;
+                mcpTemperatureMessage = 1;
                 appState.setAlarm.store(true);
-            } else {
+            } 
+            if (appState.mcpTemperature.load() <= appState.tempThreshold.load() && mcpTemperatureMessage != 0) {
+                mcpTemperatureMessage = 0;
+                std::cout << "Temperature " << appState.mcpTemperature.load() << "C below threshold. Normal operation" << std::endl;
                 appState.setAlarm.store(false);
             }
             if (appState.gpioButtonShortPress.load()) {

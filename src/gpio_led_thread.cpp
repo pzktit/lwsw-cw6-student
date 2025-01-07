@@ -9,17 +9,15 @@ void gpio_led_thread(Application_state_t  & appState, const GPIO_Led::Config & l
         led.set(GPIO_Led::ON);
         static const auto loop_time_step = std::chrono::milliseconds(100); 
         std::cout << __func__ << " started." << std::endl;
+        static int alarm_state = -1 ;
         while (appState.keepRunning.load()) {
-            auto now=std::chrono::steady_clock::now();
-            if (now < appState.alarmTime.load()) {
-                // set the alarm state
+            if (appState.setAlarm.load() && alarm_state != 1) {
+                alarm_state = 1;
                 led.setTrigger("heartbeat");
-                // wait for the alarm to expire
-                while (appState.keepRunning.load() && now < appState.alarmTime.load()) {
-                    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                    now = std::chrono::steady_clock::now();
-                }
+            }
+            if (!appState.setAlarm.load() && alarm_state != 0) {
                 led.setTrigger("default-on");
+                alarm_state = 0;
             }
             std::this_thread::sleep_for(loop_time_step);
         }
