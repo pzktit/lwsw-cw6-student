@@ -802,12 +802,6 @@ formatowaniem danych.</p>
 Wykonaj jego fork lub bezpośrednio sklonuj do lokalnego katalogu.
 Sklonuj je do bieżącego katalogu pomijając historię zmian</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone <span class="at">--depth</span> 1 <span class="at">--branch</span> main <span class="at">--single-branch</span> https://github.com/pzktit/lwsw-cw6-student.git cw6</span></code></pre></div>
-<p>Skopiuj aplikację <code>demo</code> na system target</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> cw6/demo target-0x:</span></code></pre></div>
-<p>Uruchom aplikację <code>demo</code> i sprawdź czy działa zgodnie z
-zamieszczonym wyżej opisem.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> target-0x <span class="st">&quot;./demo&quot;</span></span></code></pre></div>
-<p>Problemy zgłoś prowadzącemu.</p>
 <h3 id="konfiguracja-platformy-sprzętowej">1. Konfiguracja platformy
 sprzętowej</h3>
 <ol type="1">
@@ -818,7 +812,7 @@ związanych z kontrolą szyn I2C</strong></li>
 <li><p>Przy użyciu komendy <code>ls</code> sprawdź dostępność nakładek
 DT obsługujących szyny I2C. Nakładki znajdują się w katalogu
 <code>/boot/firmware/overlays</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>i2c<span class="pp">*</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="pp">*</span>i2c<span class="pp">*</span></span></code></pre></div></li>
 </ul>
 <ol type="1">
 <li><p><strong>Właściwości nakładek</strong>. Korzystając z komendy
@@ -831,12 +825,12 @@ nakładka/nakładki dotyczące I2C są załadowane.</p></li>
 <li><p><strong>Sprawdzenie konfiguracji miksera pinów</strong>.
 Korzystając z <code>pinctrl</code> znajdź piny na których można
 aktywować I2C.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> funcs 1-27 <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&quot;SCL|SDA&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> funcs 1-27 <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&quot;SCL|SDA&quot;</span></span></code></pre></div></li>
 <li><p><strong>Sprawdzenie funkcji pinów wykorzystywanej magistrali
 I2C</strong>. Zastosowana w ćwiczeniu konfiguracja wykorzystuje
 magistralę I2C1. Sprawdź konfigurację przypisanych do niej pinów SDL i
 SDA.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> get 2,3</span></code></pre></div></li>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pinctrl</span> get 2,3</span></code></pre></div></li>
 </ol>
 <div style="background-color: yellow; color:red; padding: 2px;">
 <p>Wykonaj zrzuty ekranu w punktach 3 i 4 (6.1.1 i 6.1.2) zawierające
@@ -847,25 +841,25 @@ wynik działania odpowiednich komend. Zrzut zamieść w sprawozdaniu.</p>
 <li><p>Przenieś czas z systemu <code>host</code> (VM) na system
 <code>target</code> (Pi5). W systemie <code>host</code> wydaj
 komendę</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> target <span class="st">&quot;sudo date -s </span><span class="dt">\&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> <span class="st">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="va">)</span><span class="dt">\&quot;</span><span class="st">&quot;</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> target-0x <span class="st">&quot;sudo date -s </span><span class="dt">\&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> <span class="st">&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class="va">)</span><span class="dt">\&quot;</span><span class="st">&quot;</span></span></code></pre></div></li>
 <li><p>Sprawdź magistrale dostępne w systemie</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-l</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-l</span></span></code></pre></div></li>
 <li><p>Sprawdź urządzenia podpięte do magistrali <code>i2c-1</code>
 (<code>/dev/i2c-1</code>)</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-y</span> <span class="at">-r</span> 1</span></code></pre></div></li>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cdetect</span> <span class="at">-y</span> <span class="at">-r</span> 1</span></code></pre></div></li>
 <li><p>Pobierz ID wytwórcy oraz ID urządzenia z rejestrów MCP9808</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x07 w</span></code></pre></div></li>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x07 w</span></code></pre></div></li>
 <li><p>Pobierz bieżący czas ustawiony w sensorze PCF8563 (zauważ użycie
 odpowiednich masek eliminujących nieużywane bity)</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">secreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x02 b<span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="va">minreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x03 b<span class="va">)</span> <span class="kw">&amp;&amp;</span>  <span class="va">hrsreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x04 b<span class="va">)</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;%02x:%02x:%02x\n&quot;</span> <span class="va">$((</span> <span class="va">hrsreg</span> <span class="op">&amp;</span> <span class="bn">0x3f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">minreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">secreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span><span class="va">))</span></span></code></pre></div></li>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">secreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x02 b<span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="va">minreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x03 b<span class="va">)</span> <span class="kw">&amp;&amp;</span>  <span class="va">hrsreg</span><span class="op">=</span><span class="va">$(</span><span class="ex">i2cget</span> <span class="at">-y</span> 1 0x51 0x04 b<span class="va">)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&quot;%02x:%02x:%02x\n&quot;</span> <span class="va">$((</span> <span class="va">hrsreg</span> <span class="op">&amp;</span> <span class="bn">0x3f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">minreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span> <span class="va">))</span> <span class="va">$((</span> <span class="va">secreg</span> <span class="op">&amp;</span> <span class="bn">0x7f</span><span class="va">))</span></span></code></pre></div></li>
 <li><p>Ustaw czas <code>17:16</code></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x04 0x17 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x03 0x16 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x02 0x00 b</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x04 0x17 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x03 0x16 b <span class="kw">&amp;&amp;</span> <span class="ex">i2cset</span> <span class="at">-y</span> 1 0x51 0x02 0x00 b</span></code></pre></div>
 <p>Pobierz ponownie czas zapisany w rejestrach zegara.</p></li>
-<li><p>Uruchom poniższy one-liner pobierający 20 razy ID sensora
-MCP9808. Na oscyloskopie uzyskaj przebieg zapytania i odpowiedzi (2
-osobne przebiegi)</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="kw">`</span><span class="fu">seq</span> 1 20<span class="kw">`</span> <span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$k</span><span class="st">: &quot;</span> <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="fu">sleep</span> 1 <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div></li>
+<li><p>(Pomijamy w sezonie 2025/26) Uruchom poniższy one-liner
+pobierający 20 razy ID sensora MCP9808. Na oscyloskopie uzyskaj przebieg
+zapytania i odpowiedzi (2 osobne przebiegi)</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> <span class="kw">`</span><span class="fu">seq</span> 1 20<span class="kw">`</span> <span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="at">-n</span> <span class="st">&quot;</span><span class="va">$k</span><span class="st">: &quot;</span> <span class="kw">;</span> <span class="ex">i2cget</span> <span class="at">-y</span> 1 0x18 0x06 w <span class="kw">;</span> <span class="fu">sleep</span> 1 <span class="kw">;</span> <span class="cf">done</span></span></code></pre></div></li>
 </ol>
 <div style="background-color: yellow; color:red; padding: 2px;">
 <p>Wykonaj zrzuty ekranu w punkcie 5 (6.2.1) zawierające wynik działania
@@ -883,8 +877,8 @@ zawierających polecenie.</p>
 aplikacji należy jej binariom nadać odpowiednie prawa. Gdy binaria
 aplikacji są już na systemie <code>target</code> należy wykonać
 komendę</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> setcap cap_sys_time+ep /home/pi/app</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">getcap</span> /home/pi/app</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> setcap cap_sys_time+ep /home/pi/app</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">getcap</span> /home/pi/app</span></code></pre></div>
 <p><strong>Każdorazowa zmiana binariów, np. na skutek rekompilacji,
 wymaga powtórnego nadania uprawnień!</strong></p>
 </body>
